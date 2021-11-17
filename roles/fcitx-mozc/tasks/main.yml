@@ -1,0 +1,3 @@
+---
+- name: input method auto start
+  ansible.builtin.shell: im-config -n fcitx

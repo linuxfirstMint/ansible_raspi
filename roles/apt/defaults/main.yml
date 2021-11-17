@@ -1,0 +1,14 @@
+---
+apt:
+  all_update_flg: True
+  all_upgrade_flg: True
+  packages:
+    - name: fcitx-mozc
+    - name: gnuplot
+    - name: gnuplot-x11
+    - name: vim
+    - name: git
+    - name: wget
+    - name: python3-pip
+    - name: nmap
+    - name: wireshark

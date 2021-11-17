@@ -1,0 +1,10 @@
+---
+- hosts: all
+  remote_user: pi
+  gather_facts: True
+  roles:
+    #- sys
+    #- apt
+    - pip
+    #- fcitx-mozc
+    #- reboot

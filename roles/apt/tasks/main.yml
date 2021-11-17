@@ -1,0 +1,30 @@
+---
+- name: remove chached package information
+  become: yes
+  ansible.builtin.shell: rm -rf /var/lib/apt/lists/*
+
+- name: update all packages and chached package information
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: upgrade all packages
+  become: yes
+  apt:
+    name: "*"
+    state: latest
+
+- name: dist upgrade
+  become: yes
+  apt:
+    upgrade: dist
+  when: apt.all_upgrade_flg
+
+- name: install packages
+  become: yes
+  apt:
+    name: "{{ item.name }}"
+    #state: "{{ item.state }}"
+    state: present
+    #cache_valid_time: 3600
+  with_items: "{{ apt.packages }}"

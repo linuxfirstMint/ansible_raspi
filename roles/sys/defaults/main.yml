@@ -1,0 +1,29 @@
+---
+sys:
+  hostname: "pi0"
+  reboot: True #Should i reboot at the end of this playbook?
+  update: True
+  memsplit: "128"
+  bootbehaviour: "B4" #B1 cli, B2 cli autoloin, B3 desktop, B4 desktop autologin
+  locale: "ja_JP.UTF-8"
+  timezone: "Asia/Tokyo"
+  xkblayout: "jp" #default "gb"
+  netnames: False
+  ssh: True
+  serial: False
+  camera: False
+  vnc: True
+  spi: False
+  i2c: True
+  onewire: False
+  rgpio: False
+  wifi_country: "JP"
+  bootwait: False
+  bootsplash: False
+  overscan: False
+  overclock: False
+  hdmi_group: False
+  hdmi_mod: False
+  pixdub: False
+  audio_out: "0" #0 Auto, 1 Force 3.5mm, 2 Force hdmi
+  gldriver: False #G1 Full KMS, G2 Fake KMS, G3 Legacy
