@@ -408,7 +408,7 @@
   shell: "raspi-config nonint do_onewire 1"
   when: ( sys.pixdub == False) and (pixdub_status.stdout != '1')
 
-#A7 GL Driver
-- name: Set OpenGL desktop driver
-  become: True
-  shell: "raspi-config nonint do_gldriver {{ sys.gldriver }}"
+    ##A7 GL Driver
+    #- name: Set OpenGL desktop driver
+    #  become: True
+    #  shell: "raspi-config nonint do_gldriver {{ sys.gldriver }}"
