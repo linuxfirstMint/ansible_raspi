@@ -4,7 +4,7 @@
   gather_facts: True
   roles:
     #- sys
-    - apt
+    #- apt
     - pip
-    - fcitx-mozc
-    - reboot
+    #- fcitx-mozc
+    #- reboot
