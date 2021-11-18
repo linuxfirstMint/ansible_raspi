@@ -1,0 +1,6 @@
+- name: Send notification message via Slack
+  slack:
+    token: XXXXXXXX
+    msg: "RaspberryPi : {{ inventory_hostname }} setup completed!"
+    color: good
+  delegate_to: localhost
