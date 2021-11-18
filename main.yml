@@ -3,8 +3,8 @@
   remote_user: pi
   gather_facts: True
   roles:
-    #- sys
-    #- apt
+    - sys
+    - apt
     - pip
-    #- fcitx-mozc
-    #- reboot
+    - fcitx-mozc
+    - reboot
