@@ -4,16 +4,22 @@
   ansible.builtin.shell: rm -rf /var/lib/apt/lists/*
 
 - name: update+upgrade all packages and chached package information
-become: yes
+  become: yes
   apt:
     update_cache: yes
     upgrade: yes
+  register: apt_action
+  until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
+  retries: 1
 
 - name: dist upgrade
   become: yes
   apt:
     upgrade: dist
   when: apt.all_upgrade_flg
+  register: apt_action
+  until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
+  retries: 1
 
 - name: install packages
   become: yes
@@ -23,3 +29,6 @@ become: yes
     state: present
     #cache_valid_time: 3600
   with_items: "{{ apt.packages }}"
+  register: apt_action
+  until: apt_action is success or ('Failed to lock apt for exclusive operation' not in apt_action.msg and '/var/lib/dpkg/lock' not in apt_action.msg)
+  retries: 1
