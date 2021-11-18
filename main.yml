@@ -8,3 +8,4 @@
     - pip
     - fcitx-mozc
     - reboot
+    - notify_slack
