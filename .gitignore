@@ -31,3 +31,4 @@ hosts
 !.vscode/*.code-snippets
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode
+roles/sys/defaults/main.yml
