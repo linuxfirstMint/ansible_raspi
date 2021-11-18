@@ -1,7 +1,12 @@
 #! /bin/bash
 
-readonly HOST_PATH="$HOME/ansible-raspi-test/roles/sys/defaults/main.yml "
-readonly FILE_PATH="$HOME/ansible-raspi-test/hosts"
+readonly SCRIPT_DIR=$(
+    cd $(dirname $0)
+    pwd
+)
+
+readonly HOST_PATH="${SCRIPT_DIR}/roles/sys/defaults/main.yml "
+readonly FILE_PATH="${SCRIPT_DIR}/hosts"
 
 function get_host() {
     awk -F':' '{print $2}' ${HOST_PATH} | head -n 3 - | awk 'NF' | sed 's/\"//g' | sed 's/ //'
