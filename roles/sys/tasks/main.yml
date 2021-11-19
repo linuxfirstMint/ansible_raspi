@@ -80,9 +80,9 @@
   debug:
     msg: "Boot wait is: {{ boot_wait.stdout }}"
 
-#- name: Set boot wait network status
-#  become: True
-#  shell: "raspi-config nonint do_boot_wait {{ sys.bootwait }}"
+- name: Set boot wait network status
+  become: True
+  shell: "raspi-config nonint do_boot_wait {{ sys.bootwait }}"
 
 #B3 Splash Screen
 - name: Get splash status
@@ -94,8 +94,25 @@
   debug:
     msg: "Boot splash status is: {{ boot_splash.stdout }}"
 
-#- name: Set boot splash
-#  shell: "raspi-config nonint do_boot_splash {{ sys.bootsplash }}"
+- name: Check boot splash script
+  stat:
+    path: /usr/share/plymouth/themes/pix/pix.script
+  register: script_result
+
+- name: Install boot splash script install
+  become: True
+  apt:
+    name: rpd-plym-splash
+    state: present
+  when: script_result is false
+
+- name: Enable boot splash
+  shell: "raspi-config nonint do_boot_splash {{ sys.bootsplash }}"
+  when: ( sys.bootsplash == 1) and (boot_splash.stdout != '0')
+
+- name: Disable boot splash
+  shell: "raspi-config nonint do_boot_splash {{ sys.bootsplash }}"
+  when: ( sys.bootsplash == 0) and (boot_splash.stdout != '1')
 
 #4 Localisation Options
 
@@ -297,9 +314,10 @@
   debug:
     msg: "Overclock is: {{ pi_overclock.stdout }}"
 
-  #- name: Set overclock
-  # become: True
-  #shell: "raspi-config nonint do_overclock {{ sys.overclock }}"
+- name: Set overclock
+  become: True
+  shell: "raspi-config nonint do_overclock {{ sys.overclock }}"
+  when: (sys.overclock == True) and (pi_overclock.stdout != '0')
 
 #7 Advanced Options
 
@@ -361,7 +379,7 @@
 - name: Set GPU memory split
   become: True
   shell: "raspi-config nonint do_memory_split {{ sys.memsplit }}"
-  #when: gpu_mem.stdout != MEMSPLIT
+  when: gpu_mem.stdout != 0
 
 #A4 Audio
 ### 0 Auto, 1 Force 3.5mm, 2 Force hdmi
@@ -384,9 +402,9 @@
   debug:
     msg: "HDMI group and mode is: {{ hdmi_group.stdout }} - {{ hdmi_mode.stdout }}"
 
-  #- name: Set HDMI group mode
-  #become: True
-  #shell: "raspi-config nonint do_resolution {{ sys.hdmi_group }} {{ sys.hdmi_mod }}"
+- name: Set HDMI group mode
+  become: True
+  shell: "raspi-config nonint do_resolution {{ sys.hdmi_group }} {{ sys.hdmi_mod }}"
 
 #A6 Pixel Doubling
 - name: Get pixel doubling
@@ -407,8 +425,8 @@
   become: True
   shell: "raspi-config nonint do_onewire 1"
   when: ( sys.pixdub == False) and (pixdub_status.stdout != '1')
-
 #A7 GL Driver
-- name: Set OpenGL desktop driver
+- name: set OpenGL desktop driver
   become: True
   shell: "raspi-config nonint do_gldriver {{ sys.gldriver }}"
+  when: ( sys.gldriver == True)
